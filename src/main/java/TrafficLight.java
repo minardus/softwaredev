@@ -1,3 +1,5 @@
+import java.util.Set;
+
 public class TrafficLight {
 
     public enum Status {
@@ -101,7 +103,7 @@ public class TrafficLight {
     private void DestroyMaxRedTimerThread()
     {
         maxRedTimerThread = null;
-        secsOnRed = 0;
+        SetSecsOnRed(0);
     }
 
     private class MaxRedTimerThread extends Thread
@@ -113,17 +115,18 @@ public class TrafficLight {
             while(true)
             {
                 try {
-                    System.out.println("ping from " + GetID());
+                    System.out.println("ping from " + GetID() + "\t" + GetSecsOnRed() + " secs on red");
                     sleep(1000);
                     int secsOnRed = GetSecsOnRed();
-                    if(secsOnRed < Settings.MaxRedTime)
+                    if(maxRedTimerThread == null) {
+                        break;
+                    }
+                    else if(secsOnRed < Settings.MaxRedTime)
                     {
                         SetSecsOnRed(secsOnRed + 1);
                     }
                     else
-                    {
                         break;
-                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -118,7 +118,7 @@ public class Intersection {
                 trafficLights.stream()
                         .filter(t -> t.GetID() == id)
                         .findFirst()
-                        .ifPresent(t -> t.SetOccupied(bezet));
+                        .ifPresent(t -> addToQueue(t, bezet));
                 System.out.println("bezet: " + bezet + "\tid: " + id);
             }
         }
@@ -133,10 +133,65 @@ public class Intersection {
                 trafficLights.stream()
                         .filter(t -> t.GetID() == id)
                         .findFirst()
-                        .ifPresent(t -> t.SetOccupied(bezet));
+                        .ifPresent(t -> addToQueue(t, bezet));
                 System.out.println("bezet: " + bezet + "\tid: " + id);
             }
         }
+    }
+
+    /**
+     * Add a trafficlight in the PriorityQueue and set its occupation
+     * @param tl
+     * @param bezet
+     */
+    private void addToQueue(TrafficLight tl, boolean bezet)
+    {
+        tl.SetOccupied(bezet);
+        trafficLightQueue.add(tl);
+    }
+
+    /**
+     * This method is going to handle the trafficLightQueue which holds the traffic lights which need to be handled
+     * Then via a algorithm which checks which traffic lights may go on green, the status of these traffic lights
+     * is set and sent to the client.
+     */
+    private void update()
+    {
+        List<TrafficLight> tls = GetPossibleState(trafficLightQueue);
+        for(TrafficLight tl : tls)
+        {
+            tl.SetStatus(TrafficLight.Status.GREEN);
+        }
+    }
+
+    /**
+     * This function gives a true or false if a list of traffic lights can ALL be green
+     */
+    private List<TrafficLight> GetPossibleState(PriorityQueue<TrafficLight> tls)
+    {
+        List<TrafficLight> fromQueueTls = new ArrayList<>();
+        for(TrafficLight tl : tls)
+        {
+            fromQueueTls.add(tl);
+        }
+        boolean isPossible = false;
+        while(!isPossible)
+        {
+            // if true return the arraylist and remove the items from the real queue
+            if(PossibleAlgorithm(fromQueueTls)) {
+                fromQueueTls.forEach(trafficLightQueue::remove);
+                isPossible = true;
+            // else remove last item and try again
+            } else  {
+                fromQueueTls.remove(fromQueueTls.size() - 1);
+            }
+        }
+        return fromQueueTls;
+    }
+
+    private boolean PossibleAlgorithm(List<TrafficLight> tls)
+    {
+        return true;
     }
 
 }

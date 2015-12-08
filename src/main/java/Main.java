@@ -11,9 +11,8 @@ public class Main {
         try {
             // start to serve the people
             System.out.println("create traffic lights");
-            Server server = new Server();
-            Debug debug = new Debug(server);
-            server.run();
+            new Debug();
+            new Server().run();
         } catch (Exception e) {
             e.printStackTrace();
         }

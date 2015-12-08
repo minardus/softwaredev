@@ -7,8 +7,6 @@ import java.net.Socket;
 
 public class Debug extends Thread {
 
-    private Server server;
-
     private JFrame f;
     private JPanel panel = new JPanel();
     JButton debugBtn = null;
@@ -16,10 +14,8 @@ public class Debug extends Thread {
     private BufferedWriter out = null;
     private BufferedReader in = null;
 
-    public Debug(Server server)
+    public Debug()
     {
-        this.server = server;
-
         f = new JFrame("SERVER_GUI");
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
