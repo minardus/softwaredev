@@ -50,7 +50,7 @@ public class Server extends Thread {
         String json = intersection.GetTrafficLightsJSONObject().toJSONString();
         System.out.println(json);
         try {
-            System.out.println("hello, its me");
+            System.out.println("SENDING ON SERVER SIDE");
             out.write(json);
             out.newLine();  // they want it, they get it.. eat that return newline
             out.flush();

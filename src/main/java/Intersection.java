@@ -79,6 +79,7 @@ public class Intersection {
     {
         JSONArray jsonTrafficLights = new JSONArray();
         trafficLights.forEach(trafficLight -> jsonTrafficLights.add(trafficLight.getJSONCompat()));
+
         JSONObject obj = new JSONObject();
         obj.put("stoplichten", jsonTrafficLights);
         return obj;

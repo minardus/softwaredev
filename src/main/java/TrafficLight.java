@@ -1,3 +1,5 @@
+import org.json.simple.JSONObject;
+
 import java.util.Set;
 
 public class TrafficLight {
@@ -77,8 +79,8 @@ public class TrafficLight {
         }
     }
 
-    public String getJSONCompat() {
-        return (new JSONStructs.Stoplichten(GetID(), GetStatus())).toJSONString();
+    public JSONObject getJSONCompat() {
+        return (new JSONStructs.Stoplichten(GetID(), GetStatus())).toJSONObject();
     }
 
     public synchronized int GetSecsOnRed()

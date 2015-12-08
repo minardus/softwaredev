@@ -12,6 +12,14 @@ public class JSONStructs {
             this.status = status;
         }
 
+        public JSONObject toJSONObject()
+        {
+            JSONObject obj = new JSONObject();
+            obj.put("id", "" + id);
+            obj.put("status", "" + status);
+            return obj;
+        }
+
         public String toJSONString(){
             StringBuffer sb = new StringBuffer();
 
@@ -28,6 +36,8 @@ public class JSONStructs {
             sb.append(status);
 
             sb.append("}");
+
+            System.out.println(sb.toString());
 
             return sb.toString();
         }
