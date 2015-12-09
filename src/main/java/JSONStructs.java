@@ -15,8 +15,8 @@ public class JSONStructs {
         public JSONObject toJSONObject()
         {
             JSONObject obj = new JSONObject();
-            obj.put("id", "" + id);
-            obj.put("status", "" + status);
+            obj.put("id", id);
+            obj.put("status", status);
             return obj;
         }
 

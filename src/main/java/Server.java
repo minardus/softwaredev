@@ -80,9 +80,9 @@ public class Server extends Thread {
      * @return List of boolean arrays (possible states per trafficlight)
      * @throws Exception
      */
-    public static List<Boolean[]> readStates() throws Exception
+    public static List<boolean[]> readStates() throws Exception
     {
-        List<Boolean[]> states = new ArrayList<>();
+        List<boolean[]> states = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader("stoplichten_states.csv"));
         // read the first two lines and throw away
         br.readLine();br.readLine();
@@ -90,7 +90,7 @@ public class Server extends Thread {
         while ((line = br.readLine()) != null) {
             String[] row_str = line.split(";");
             // skip first item in row_str, so row_bool = -1, and for loop begins with 1
-            Boolean[] row_bool = new Boolean[row_str.length - 1];
+            boolean[] row_bool = new boolean[row_str.length - 1];
             for(int i=1; i<row_bool.length;i++)
                 row_bool[i] = Boolean.parseBoolean(row_str[i]);
             states.add(row_bool);
@@ -111,9 +111,10 @@ public class Server extends Thread {
         String[] linked = br.readLine().split(";");  // this lights are linked to other lights
         String[] lights = br.readLine().split(";");  // the lights with action
         // skip first in lights[], which is for readability purposes in excel
+        int fakeId = 0;
         for(int i=1;i<lights.length;i++) {
             int tlid = parseTrafficLightId(lights[i]);
-            trafficLights.add(new TrafficLight(tlid, tlid < Settings.noPriorityThreshold));
+            trafficLights.add(new TrafficLight(tlid, tlid < Settings.noPriorityThreshold, fakeId++));
         }
         // add linked lights, with parent id
         for(String link : linked) {

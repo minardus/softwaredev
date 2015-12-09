@@ -41,9 +41,10 @@ public class ParseClientJSONTest {
         String[] linked = br.readLine().split(";");  // this lights are linked to other lights
         String[] lights = br.readLine().split(";");  // the lights with action
         // skip first in lights[], which is for readability purposes in excel
+        int fakeId = 0;
         for(int i=1;i<lights.length;i++) {
             int tlid = parseTrafficLightId(lights[i]);
-            trafficLights.add(new TrafficLight(tlid, tlid < Settings.noPriorityThreshold));
+            trafficLights.add(new TrafficLight(tlid, tlid < Settings.noPriorityThreshold, fakeId++));
         }
         // add linked lights, with parent id
         for(String link : linked) {

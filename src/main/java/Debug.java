@@ -31,15 +31,23 @@ public class Debug {
         debugBtn.addActionListener(e -> new Thread() { public void run() { DebugThread(); } }.start());
         panel.add(debugBtn);
 
-        JButton sendTestBtn = new JButton("send Test");
-        sendTestBtn.addActionListener(e -> SendBaan(5, true));
+        JButton sendTestBtn = new JButton("SET 2 ON TRUE");
+        sendTestBtn.addActionListener(e -> SendBaan(2, true));
         panel.add(sendTestBtn);
 
-        JButton sendTestBtn2 = new JButton("send Test 2");
-        sendTestBtn2.addActionListener(e -> SendBaan(5, false));
+        JButton sendTestBtn2 = new JButton("SET 2 on FALSE");
+        sendTestBtn2.addActionListener(e -> SendBaan(2, false));
         panel.add(sendTestBtn2);
 
-        String[] columns = new String[] {"Stoplicht", "Bezet", "Status"};
+        JButton sendTestBtn3 = new JButton("SET 3 on TRUE");
+        sendTestBtn3.addActionListener(e -> SendBaan(3, true));
+        panel.add(sendTestBtn3);
+
+        JButton sendTestBtn4 = new JButton("SET 3 on FALSE");
+        sendTestBtn4.addActionListener(e -> SendBaan(3, false));
+        panel.add(sendTestBtn4);
+
+        String[] columns = new String[] {"Stoplicht", "Status"};
         DefaultTableModel model = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -105,8 +113,8 @@ public class Debug {
     private void ParseServerJSON(String json)
     {
         //do something with json from server
-        table.removeAll();
         DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
 
         // parse json
         JSONParser parser = new JSONParser();
@@ -125,17 +133,38 @@ public class Debug {
             e.printStackTrace();
         }
 
-        // parse banen
+        // parse stoplichten
         if(stoplichten != null)
         {
             for (Object stoplicht : stoplichten) {
                 JSONObject test = (JSONObject) stoplicht;
-                final int status = Integer.parseInt(((String) test.get("status")));
-                final int id = Integer.parseInt(((String) test.get("id")));
-                model.addRow(new Object[] { id, false, status });
+                final int status = Integer.parseInt(("" +  test.get("status")));
+                final int id = Integer.parseInt(("" +  test.get("id")));
+                model.addRow(new Object[] { id, GetNamedStatus(status) });
                 //System.out.println("bezet: " + bezet + "\tid: " + id);
             }
         }
+    }
+
+
+    private String GetNamedStatus(int status)
+    {
+        switch(status)
+        {
+            case 0:
+                return "RED";
+            case 1:
+                return "ORANGE";
+            case 2:
+                return "GREEN";
+            case 3:
+                return "BUS_STRAIGHT_AND_RIGHT";
+            case 4:
+                return "BUS_STRAIGHT";
+            case 5:
+                return "BUS_RIGHT";
+        }
+        return "ERROR";
     }
 
 }
